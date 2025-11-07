@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes'
 import Navigation from './components/Navigation'
 import api from './services/api'
+import { GlobalStyles } from './styles/GlobalStyles'
 
 function App() {
   useEffect(() => {
@@ -19,10 +20,13 @@ function App() {
   }, [])
 
   return (
-    <BrowserRouter>
-      <Navigation />
-      <AppRoutes />
-    </BrowserRouter>
+    <>
+      <GlobalStyles />
+      <BrowserRouter>
+        <Navigation />
+        <AppRoutes />
+      </BrowserRouter>
+    </>
   )
 }
 
