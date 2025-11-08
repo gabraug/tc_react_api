@@ -1,8 +1,10 @@
+import { lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Home from '../pages/Home/Home'
-import MovieDetailsPage from '../pages/MovieDetails/MovieDetails'
-import Favorites from '../pages/Favorites/Favorites'
-import Search from '../pages/Search/Search'
+
+const Home = lazy(() => import('../pages/Home/Home'))
+const MovieDetailsPage = lazy(() => import('../pages/MovieDetails/MovieDetails'))
+const Favorites = lazy(() => import('../pages/Favorites/Favorites'))
+const Search = lazy(() => import('../pages/Search/Search'))
 
 function AppRoutes() {
   return (
