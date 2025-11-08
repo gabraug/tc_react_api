@@ -1,73 +1,146 @@
-# React + TypeScript + Vite
+# TMDB
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação React para consulta de filmes utilizando a API do The Movie Database (TMDB). Desenvolvida com TypeScript, Vite e Styled Components.
 
-Currently, two official plugins are available:
+## Pré-requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Docker Compose (Recomendado):**
+- Docker 20.x+
+- Docker Compose 2.x+
 
-## React Compiler
+**Instalação Local:**
+- Node.js 20.x+ (ou 22.x+)
+- npm 9.x+
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Instalando Node.js e npm
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**macOS (usando Homebrew):**
+```bash
+brew install node
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Windows:**
+Baixe o instalador em [nodejs.org](https://nodejs.org/) e siga o assistente de instalação.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Verificando a instalação:**
+```bash
+node --version
+npm --version
 ```
+
+## Instalação
+
+### Docker Compose
+
+```bash
+git clone https://github.com/gabraug/tc_react_api.git
+cd tc_react_api
+cp .env.example .env
+# Edite o .env com suas credenciais
+docker-compose up
+```
+
+Aplicação disponível em `http://localhost:5173`
+
+### Instalação Local
+
+```bash
+git clone https://github.com/gabraug/tc_react_api.git
+cd tc_react_api
+npm install
+cp .env.example .env
+# Edite o .env com suas credenciais
+npm run dev
+```
+
+## Configuração
+
+Copie `.env.example` para `.env` e configure:
+
+```env
+VITE_TMDB_BASE_URL=https://api.themoviedb.org/3
+VITE_TMDB_TOKEN=seu_token_aqui
+```
+
+**Obtendo o token TMDB:**
+1. Acesse [TMDB](https://www.themoviedb.org/)
+2. Crie uma conta ou faça login
+3. Vá em **Settings > API**
+4. Solicite uma API Key
+5. Use o token no arquivo `.env`
+
+## Scripts Disponíveis
+
+```bash
+# Desenvolvimento
+npm run dev              # Inicia servidor de desenvolvimento
+
+# Build
+npm run build            # Gera build de produção
+npm run preview          # Visualiza build localmente
+
+# Testes
+npm test                 # Executa testes em modo watch
+npm run test:all         # Executa todos os testes
+npm run test:coverage    # Testes com cobertura
+npm run test:ui          # Interface gráfica do Vitest
+
+# Storybook
+npm run storybook        # Inicia Storybook
+npm run build-storybook  # Build estático do Storybook
+
+# Code Quality
+npm run lint             # Verifica problemas de lint
+npm run lint:fix         # Corrige problemas de lint
+npm run format           # Formata o código
+npm run format:check     # Verifica formatação
+```
+
+## Stack Tecnológica
+
+- React 19
+- TypeScript
+- Vite
+- React Router DOM
+- Styled Components
+- Axios
+- Vitest
+- Storybook
+- ESLint
+- Prettier
+
+## Arquitetura
+
+Aplicação baseada em componentes com separação de responsabilidades:
+
+- **Componentes**: Componentes reutilizáveis isolados
+- **Contexts**: Estado global com React Context API
+- **Services**: Camada de abstração para APIs externas
+- **Hooks**: Lógica reutilizável em custom hooks
+- **Types**: Definições TypeScript centralizadas
+
+## Desenvolvimento
+
+### Adicionando Componentes
+
+Estrutura padrão:
+
+```
+ComponentName/
+├── ComponentName.tsx
+├── ComponentName.styles.ts
+├── ComponentName.test.tsx
+└── ComponentName.stories.tsx
+```
+
+### Testes
+
+Testes próximos ao código. Utilize Testing Library para componentes e MSW para mocks HTTP.
+
+### Storybook
+
+Cada componente deve ter uma story em `ComponentName.stories.tsx`.
+
+## Autor
+
+Gabriel Morais (Gabraug)
