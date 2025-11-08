@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-ssr
+storybook-static
+.git
+.gitignore
+.env
+.env.local
+*.log
+.DS_Store
+.vscode
+.idea
+coverage
+*.test.ts
+*.test.tsx
+
