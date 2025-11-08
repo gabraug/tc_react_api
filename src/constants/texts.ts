@@ -65,6 +65,12 @@ export const texts = {
     loadFavorites: 'Erro ao carregar favoritos',
     loadMovieDetails: 'Não foi possível carregar os detalhes do filme.',
     invalidDate: 'Data inválida',
+    boundary: {
+      title: 'Algo deu errado',
+      message: 'Ocorreu um erro inesperado. Por favor, tente recarregar a página.',
+      details: 'Detalhes do erro (apenas em desenvolvimento):',
+      reset: 'Recarregar página',
+    },
   },
 
   success: {
@@ -129,4 +135,3 @@ export const texts = {
     maximize: 'Maximizar',
   },
 } as const
-

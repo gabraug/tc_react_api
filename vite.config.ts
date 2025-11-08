@@ -1,5 +1,3 @@
-/// <reference types="vitest/config" />
-/// <reference types="vitest" />
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
@@ -22,7 +20,7 @@ export default defineConfig({
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'styled-components': ['styled-components'],
-          'axios': ['axios'],
+          axios: ['axios'],
         },
       },
     },
@@ -40,6 +38,16 @@ export default defineConfig({
     },
     projects: [
       {
+        test: {
+          name: 'unit',
+          globals: true,
+          include: ['**/*.test.{ts,tsx}'],
+          exclude: ['**/*.stories.{ts,tsx}', 'node_modules/**', 'dist/**'],
+          environment: 'jsdom',
+          setupFiles: ['./src/test/setup.ts'],
+        },
+      },
+      {
         extends: true,
         plugins: [
           storybookTest({
@@ -48,6 +56,7 @@ export default defineConfig({
         ],
         test: {
           name: 'storybook',
+          include: ['**/*.stories.{ts,tsx}'],
           browser: {
             enabled: true,
             headless: true,
