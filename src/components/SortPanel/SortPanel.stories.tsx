@@ -5,9 +5,9 @@ import SortPanel from './SortPanel'
 const mockOptions = [
   { value: 'titleAsc', label: 'A-Z' },
   { value: 'titleDesc', label: 'Z-A' },
-  { value: 'ratingDesc', label: 'Nota: Maior' },
-  { value: 'ratingAsc', label: 'Nota: Menor' },
-  { value: 'favoritesFirst', label: 'Favoritos primeiro' },
+  { value: 'ratingDesc', label: 'Rating: Highest' },
+  { value: 'ratingAsc', label: 'Rating: Lowest' },
+  { value: 'favoritesFirst', label: 'Favorites first' },
 ]
 
 const meta = {
@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    title: 'Ordenar por',
+    title: 'Sort by',
     options: mockOptions,
     activeValue: 'titleAsc',
     onSelect: fn(),
@@ -33,7 +33,7 @@ export const Default: Story = {
 
 export const WithDifferentActive: Story = {
   args: {
-    title: 'Ordenar por',
+    title: 'Sort by',
     options: mockOptions,
     activeValue: 'ratingDesc',
     onSelect: fn(),
@@ -45,7 +45,7 @@ export const Collapsed: Story = {
     return <SortPanel {...args} />
   },
   args: {
-    title: 'Ordenar por',
+    title: 'Sort by',
     options: mockOptions,
     activeValue: 'titleAsc',
     onSelect: fn(),
