@@ -1,14 +1,14 @@
 import { Routes, Route } from 'react-router-dom'
-import Home from '../pages/Home'
-import MovieDetails from '../pages/MovieDetails'
-import Favorites from '../pages/Favorites'
-import Search from '../pages/Search'
+import Home from '../pages/Home/Home'
+import MovieDetailsPage from '../pages/MovieDetails/MovieDetails'
+import Favorites from '../pages/Favorites/Favorites'
+import Search from '../pages/Search/Search'
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/movie/:id" element={<MovieDetails />} />
+      <Route path="/movie/:id" element={<MovieDetailsPage />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/search" element={<Search />} />
     </Routes>
@@ -16,4 +16,3 @@ function AppRoutes() {
 }
 
 export default AppRoutes
-
