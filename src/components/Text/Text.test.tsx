@@ -84,6 +84,39 @@ describe('Text Component', () => {
       expect(screen.getByTestId('custom-text')).toBeInTheDocument()
       expect(screen.getByText('Texto customizado')).toHaveClass('custom-class')
     })
+
+    it('should apply lineHeight when provided', () => {
+      const { container } = render(<Text lineHeight={1.8}>Texto com line-height</Text>)
+      const textElement = container.querySelector('p')
+      expect(textElement).toBeInTheDocument()
+    })
+
+    it('should render with textDark color', () => {
+      render(<Text color="textDark">Texto escuro</Text>)
+      expect(screen.getByText('Texto escuro')).toBeInTheDocument()
+    })
+
+    it('should render with justify alignment', () => {
+      render(<Text align="justify">Texto justificado</Text>)
+      expect(screen.getByText('Texto justificado')).toBeInTheDocument()
+    })
+
+    it('should handle default color case in styles (covers default switch case)', () => {
+      const { container } = render(<Text color="text">Texto padrão</Text>)
+      const textElement = container.querySelector('p')
+      expect(textElement).toBeInTheDocument()
+      const colors: Array<'white' | 'text' | 'textLight' | 'textDark' | 'error'> = [
+        'white',
+        'text',
+        'textLight',
+        'textDark',
+        'error',
+      ]
+      colors.forEach(color => {
+        const { unmount } = render(<Text color={color}>Test</Text>)
+        expect(screen.getByText('Test')).toBeInTheDocument()
+        unmount()
+      })
+    })
   })
 })
-

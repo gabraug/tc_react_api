@@ -83,6 +83,106 @@ describe('RemoveFavoriteModal Component', () => {
 
       expect(handleClose).toHaveBeenCalled()
     })
+
+    it('should execute onConfirm with selectedListId when confirm button is clicked', async () => {
+      const handleConfirm = vi.fn()
+      const handleClose = vi.fn()
+      const user = userEvent.setup()
+
+      localStorage.setItem(
+        'favorites_data',
+        JSON.stringify({
+          general: [1],
+          lists: [
+            { id: 'list1', name: 'My List', movieIds: [1], createdAt: new Date().toISOString() },
+          ],
+        })
+      )
+
+      renderWithProviders(
+        <RemoveFavoriteModal
+          movieId={1}
+          movieTitle="Test Movie"
+          isOpen={true}
+          onClose={handleClose}
+          onConfirm={handleConfirm}
+        />
+      )
+
+      const listButtons = screen.getAllByRole('button')
+      const listOptionButton = listButtons.find(
+        btn => btn.textContent && btn.textContent.includes('My List')
+      )
+
+      if (listOptionButton) {
+        await user.click(listOptionButton)
+      }
+
+      const removeButton = screen.getByRole('button', { name: /remover/i })
+      await user.click(removeButton)
+
+      expect(handleConfirm).toHaveBeenCalled()
+      expect(handleClose).toHaveBeenCalled()
+    })
+
+    it('should select list option when option button is clicked', async () => {
+      const user = userEvent.setup()
+
+      localStorage.setItem(
+        'favorites_data',
+        JSON.stringify({
+          general: [1],
+          lists: [
+            { id: 'list1', name: 'My List', movieIds: [1], createdAt: new Date().toISOString() },
+          ],
+        })
+      )
+
+      renderWithProviders(
+        <RemoveFavoriteModal
+          movieId={1}
+          movieTitle="Test Movie"
+          isOpen={true}
+          onClose={vi.fn()}
+          onConfirm={vi.fn()}
+        />
+      )
+
+      const listButtons = screen.getAllByRole('button')
+      const listOptionButton = listButtons.find(
+        btn => btn.textContent && btn.textContent.includes('My List')
+      )
+
+      if (listOptionButton) {
+        await user.click(listOptionButton)
+        expect(listOptionButton).toBeInTheDocument()
+      }
+    })
+
+    it('should handle confirm when selectedListId is null (covers undefined check)', async () => {
+      const handleConfirm = vi.fn()
+      const handleClose = vi.fn()
+
+      localStorage.setItem(
+        'favorites_data',
+        JSON.stringify({
+          general: [1],
+          lists: [],
+        })
+      )
+
+      renderWithProviders(
+        <RemoveFavoriteModal
+          movieId={1}
+          movieTitle="Test Movie"
+          isOpen={true}
+          onClose={handleClose}
+          onConfirm={handleConfirm}
+        />
+      )
+
+      const removeButton = screen.getByRole('button', { name: /remover/i })
+      expect(removeButton).toBeDisabled()
+    })
   })
 })
-
