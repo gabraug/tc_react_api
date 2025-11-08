@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import type { FavoriteList, FavoritesData } from '../../types/favorites'
 import { texts } from '../../constants/texts'
+import { getStorageJSON, setStorageJSON, type StorageError } from '../../utils/storage'
 
 interface FavoritesContextType {
   favorites: number[]
@@ -15,6 +16,7 @@ interface FavoritesContextType {
   updateList: (listId: string, name: string) => void
   deleteList: (listId: string) => void
   getList: (listId: string) => FavoriteList | undefined
+  onStorageError?: (error: StorageError) => void
 }
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined)
@@ -22,40 +24,52 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 const STORAGE_KEY = 'favorites_data'
 
 function migrateOldFavorites(): FavoritesData {
-  const oldFavorites = localStorage.getItem('favorites')
-  if (oldFavorites) {
+  const oldFavorites = getStorageJSON<number[]>('favorites')
+  if (oldFavorites && Array.isArray(oldFavorites)) {
     try {
-      const movieIds = JSON.parse(oldFavorites)
-      if (Array.isArray(movieIds)) {
-        localStorage.removeItem('favorites')
-        return {
-          general: movieIds,
-          lists: [],
-        }
-      }
-    } catch {
       localStorage.removeItem('favorites')
+    } catch (error) {
+      console.warn('Failed to remove old favorites during migration', { error })
+    }
+    return {
+      general: oldFavorites,
+      lists: [],
     }
   }
   return { general: [], lists: [] }
 }
 
-export function FavoritesProvider({ children }: { children: ReactNode }) {
+export function FavoritesProvider({
+  children,
+  onStorageError,
+}: {
+  children: ReactNode
+  onStorageError?: (error: StorageError) => void
+}) {
   const [data, setData] = useState<FavoritesData>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
+    const stored = getStorageJSON<FavoritesData>(STORAGE_KEY)
     if (stored) {
-      try {
-        return JSON.parse(stored)
-      } catch {
-        return migrateOldFavorites()
-      }
+      return stored
     }
     return migrateOldFavorites()
   })
 
+  const handleStorageError = useCallback(
+    (error: StorageError) => {
+      onStorageError?.(error)
+    },
+    [onStorageError]
+  )
+
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  }, [data])
+    const result = setStorageJSON(STORAGE_KEY, data, {
+      onQuotaExceeded: handleStorageError,
+    })
+
+    if (!result.success && result.error) {
+      handleStorageError(result.error)
+    }
+  }, [data, handleStorageError])
 
   const favorites = data.general
   const lists = data.lists

@@ -6,6 +6,7 @@ import { useFavorites } from '../../contexts/Favorites/FavoritesContext'
 import { useToast } from '../../contexts/Toast/ToastContext'
 import FavoriteModal from '../../components/FavoriteModal/FavoriteModal'
 import RemoveFavoriteModal from '../../components/RemoveFavoriteModal/RemoveFavoriteModal'
+import MovieDetailsSkeleton from '../../components/MovieDetailsSkeleton/MovieDetailsSkeleton'
 import GenreCard from '../../components/GenreCard/GenreCard'
 import Button from '../../components/Button/Button'
 import Text from '../../components/Text/Text'
@@ -29,8 +30,6 @@ import {
   Overview,
   FavoriteButtonWrapper,
   FavoriteButtonContent,
-  LoadingContainer,
-  LoadingSpinner,
   ErrorContainer,
   ImageLoadingContainer,
   ImageLoadingSpinner,
@@ -169,26 +168,7 @@ function MovieDetails() {
   const favorite = movie ? isFavoriteInAnyList(movie.id) : false
 
   if (loading) {
-    return (
-      <Container>
-        <BackButtonWrapper>
-          <Button variant="secondary" size="sm" onClick={handleBack}>
-            <FavoriteButtonContent>
-              <ArrowLeft size={18} color="currentColor" />
-              <Text as="span" size="sm" color="white">
-                {texts.navigation.back}
-              </Text>
-            </FavoriteButtonContent>
-          </Button>
-        </BackButtonWrapper>
-        <LoadingContainer>
-          <LoadingSpinner />
-          <Text size="md" color="text">
-            {texts.loading.movieDetails}
-          </Text>
-        </LoadingContainer>
-      </Container>
-    )
+    return <MovieDetailsSkeleton onBack={handleBack} />
   }
 
   if (error || !movie) {

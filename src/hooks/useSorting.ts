@@ -1,14 +1,23 @@
 import { useMemo } from 'react'
-import type { Movie } from '../types/movie'
 import type { SortOptionType } from '../types/common'
 
-interface UseSortingProps {
-  items: Movie[]
+interface SortableItem {
+  id: number
+  title: string
+  vote_average: number
+}
+
+interface UseSortingProps<T extends SortableItem> {
+  items: T[]
   sortBy: SortOptionType
   isFavorite?: (id: number) => boolean
 }
 
-export const useSorting = ({ items, sortBy, isFavorite }: UseSortingProps) => {
+export const useSorting = <T extends SortableItem>({
+  items,
+  sortBy,
+  isFavorite,
+}: UseSortingProps<T>) => {
   const sortedItems = useMemo(() => {
     const sorted = [...items]
 

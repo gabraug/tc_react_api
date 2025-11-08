@@ -65,6 +65,15 @@ export const texts = {
     loadFavorites: 'Erro ao carregar favoritos',
     loadMovieDetails: 'Não foi possível carregar os detalhes do filme.',
     invalidDate: 'Data inválida',
+    storage: {
+      quotaExceeded:
+        'O armazenamento está cheio. Alguns dados antigos foram removidos automaticamente.',
+      quotaExceededCritical:
+        'Não foi possível salvar seus favoritos. O armazenamento está cheio. Por favor, limpe dados do navegador ou remova alguns favoritos.',
+      readOnly: 'Não foi possível salvar dados. O armazenamento está somente leitura.',
+      unknown: 'Erro ao salvar dados no armazenamento.',
+      recoveryAttempted: 'Tentando recuperar espaço automaticamente...',
+    },
     boundary: {
       title: 'Algo deu errado',
       message: 'Ocorreu um erro inesperado. Por favor, tente recarregar a página.',
