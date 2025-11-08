@@ -16,7 +16,7 @@ export const HeaderContainer = styled.header`
   grid-template-columns: auto 1fr auto auto;
   align-items: center;
   gap: ${spacing.md};
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px ${colors.shadow.light};
 
   @media (max-width: 1024px) {
     gap: ${spacing.sm};
@@ -272,7 +272,7 @@ export const SearchInput = styled.input<{ $hasClearButton: boolean }>`
     outline: none;
     border-color: ${colors.gray.dark};
     background: ${colors.surfaceLight};
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 2px ${colors.focus.light};
   }
 
   &::placeholder {
@@ -426,7 +426,7 @@ export const MobileMenu = styled.nav<{ $isOpen: boolean }>`
   transform: ${({ $isOpen }) => ($isOpen ? 'translateX(0)' : 'translateX(100%)')};
   transition: transform 0.3s ease-in-out;
   z-index: 1000;
-  box-shadow: -4px 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: -4px 4px 20px ${colors.shadow.dark};
   overflow-y: auto;
 
   @media (max-width: 768px) {

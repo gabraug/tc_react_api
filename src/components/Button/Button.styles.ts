@@ -51,7 +51,7 @@ export const ButtonStyled = styled.button<{
           &:hover:not(:disabled) {
             background: ${colors.gray.darker};
             transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px ${colors.shadow.medium};
           }
         `
       case 'secondary':
@@ -71,9 +71,9 @@ export const ButtonStyled = styled.button<{
           color: ${colors.white};
           
           &:hover:not(:disabled) {
-            background: #b71c1c;
+            background: ${colors.errorDark};
             transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);
+            box-shadow: 0 2px 4px ${colors.shadow.dark};
           }
         `
       case 'ghost':
@@ -117,6 +117,6 @@ export const ButtonStyled = styled.button<{
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 2px ${colors.focus.medium};
   }
 `

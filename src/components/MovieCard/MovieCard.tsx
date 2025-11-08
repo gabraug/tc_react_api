@@ -10,6 +10,7 @@ import Heart from '../../icons/Heart'
 import Star from '../../icons/Star'
 import Trash from '../../icons/Trash'
 import { texts } from '../../constants/texts'
+import { colors } from '../../styles/constants'
 import {
   Card,
   PosterContainer,
@@ -191,7 +192,7 @@ const MovieCard = memo(function MovieCard({
           <Text as="span" size="xs" color="textLight" weight="normal">
             {texts.labels.tmdbRating}
           </Text>
-          <Star filled={true} size={16} color="#FFD700" />
+          <Star filled={true} size={16} color={colors.star} />
           <Text as="span" size="sm" color="white" weight="bold">
             {rating}
           </Text>

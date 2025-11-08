@@ -13,6 +13,7 @@ import Heart from '../../icons/Heart'
 import Star from '../../icons/Star'
 import ArrowLeft from '../../icons/ArrowLeft'
 import { texts } from '../../constants/texts'
+import { colors } from '../../styles/constants'
 import {
   Container,
   BackButtonWrapper,
@@ -289,7 +290,7 @@ function MovieDetails() {
               <Text as="span" size="xs" color="textLight" weight="normal">
                 {texts.labels.tmdbRating}
               </Text>
-              <Star filled={true} size={18} color="#FFD700" />
+              <Star filled={true} size={18} color={colors.star} />
               <Text as="span" size="sm" color="white" weight="bold">
                 {rating}
               </Text>

@@ -54,7 +54,7 @@ export const DeleteButton = styled.button`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background: rgba(211, 47, 47, 0.8);
+  background: ${colors.delete.default};
   border: none;
   border-radius: 50%;
   width: 2.5rem;
@@ -67,7 +67,7 @@ export const DeleteButton = styled.button`
   transition: background ${transitions.default};
 
   &:hover {
-    background: rgba(211, 47, 47, 1);
+    background: ${colors.delete.hover};
   }
 `
 

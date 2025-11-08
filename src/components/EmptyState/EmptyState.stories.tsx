@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { fn } from 'storybook/test'
 import EmptyState from './EmptyState'
 import Film from '../../icons/Film'
+import { colors } from '../../styles/constants'
 
 const meta = {
   title: 'Components/EmptyState',
@@ -48,7 +49,7 @@ export const WithIcon: Story = {
     description: 'Try searching for a different term',
     actionLabel: 'Search Again',
     onAction: fn(),
-    icon: <Film size={64} color="#666" />,
+    icon: <Film size={64} color={colors.gray.icon} />,
   },
 }
 

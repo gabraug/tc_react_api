@@ -74,7 +74,7 @@ export const FavoriteButton = styled.button<{ $isFavorite: boolean }>`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background: ${({ $isFavorite }) => ($isFavorite ? '#ff6b6b' : 'rgba(0, 0, 0, 0.5)')};
+  background: ${({ $isFavorite }) => ($isFavorite ? colors.favorite.default : colors.overlay.light)};
   border: none;
   border-radius: 50%;
   width: 2.5rem;
@@ -83,12 +83,12 @@ export const FavoriteButton = styled.button<{ $isFavorite: boolean }>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: white;
+  color: ${colors.white};
   font-size: 1.25rem;
   transition: background ${transitions.default};
 
   &:hover {
-    background: ${({ $isFavorite }) => ($isFavorite ? '#ff5252' : 'rgba(0, 0, 0, 0.7)')};
+    background: ${({ $isFavorite }) => ($isFavorite ? colors.favorite.hover : colors.overlay.medium)};
   }
 `
 
@@ -96,7 +96,7 @@ export const DeleteButton = styled.button`
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background: rgba(211, 47, 47, 0.8);
+  background: ${colors.delete.default};
   border: none;
   border-radius: 50%;
   width: 2.5rem;
@@ -105,12 +105,12 @@ export const DeleteButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: white;
+  color: ${colors.white};
   font-size: 1.25rem;
   transition: all ${transitions.default};
 
   &:hover {
-    background: rgba(211, 47, 47, 1);
+    background: ${colors.delete.hover};
     transform: scale(1.1);
   }
 
@@ -131,15 +131,15 @@ export const Title = styled.h3`
 `
 
 export const HighlightedText = styled.mark`
-  background: #ffffff !important;
-  color: #000000 !important;
+  background: ${colors.highlight.background} !important;
+  color: ${colors.highlight.text} !important;
   font-weight: ${typography.weights.bold};
   padding: 0.15em 0.25em;
   border-radius: 3px;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
   display: inline-block;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px ${colors.shadow.dark};
   position: relative;
   margin: 0 1px;
 
@@ -150,7 +150,7 @@ export const HighlightedText = styled.mark`
     top: 0;
     bottom: 0;
     width: 2px;
-    background: #000000;
+    background: ${colors.highlight.text};
     border-radius: 3px 0 0 3px;
   }
 `

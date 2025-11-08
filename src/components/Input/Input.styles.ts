@@ -44,7 +44,7 @@ export const InputField = styled.input<{
       $hasSearchButton ? 'none' : `1px solid ${colors.gray.dark}`};
     background: ${colors.surfaceLight};
     box-shadow: ${({ $hasSearchButton }) =>
-      $hasSearchButton ? 'none' : '0 0 0 2px rgba(255, 255, 255, 0.1)'};
+      $hasSearchButton ? 'none' : `0 0 0 2px ${colors.focus.light}`};
   }
 
   &::placeholder {
@@ -79,7 +79,7 @@ export const InputField = styled.input<{
 
     &:focus {
       box-shadow: ${({ $hasSearchButton }) =>
-        $hasSearchButton ? 'none' : '0 0 0 2px rgba(255, 255, 255, 0.1)'};
+        $hasSearchButton ? 'none' : `0 0 0 2px ${colors.focus.light}`};
     }
   }
 
@@ -105,7 +105,7 @@ export const InputField = styled.input<{
 
     &:focus {
       box-shadow: ${({ $hasSearchButton }) =>
-        $hasSearchButton ? 'none' : '0 0 0 2px rgba(255, 255, 255, 0.1)'};
+        $hasSearchButton ? 'none' : `0 0 0 2px ${colors.focus.light}`};
     }
   }
 `

@@ -7,7 +7,7 @@ export const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: ${colors.overlay.light};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@ export const ModalContent = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px ${colors.shadow.darker};
   border: 1px solid ${colors.gray.medium};
 `
 

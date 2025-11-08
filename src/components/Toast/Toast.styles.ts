@@ -33,20 +33,20 @@ export const ToastItem = styled.div<{ $type: ToastType }>`
   background: ${({ $type }) => {
     switch ($type) {
       case 'success':
-        return '#4caf50' // Verde
+        return colors.success
       case 'error':
-        return colors.error // Vermelho
+        return colors.error
       case 'info':
-        return '#2196F3' // Azul
+        return colors.info
       case 'neutral':
       default:
-        return colors.white // Branco/Neutro
+        return colors.white
     }
   }};
   color: ${({ $type }) => ($type === 'neutral' ? colors.gray.dark : colors.white)};
   border: ${({ $type }) => ($type === 'neutral' ? `1px solid ${colors.gray.medium}` : 'none')};
   border-radius: ${dimensions.search.borderRadius};
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px ${colors.shadow.light};
   animation: ${slideIn} 0.3s ease-out;
   font-size: ${typography.sizes.sm};
   font-family: ${typography.fontFamily};
@@ -71,6 +71,6 @@ export const CloseButton = styled.button<{ $type: ToastType }>`
 
   &:hover {
     background: ${({ $type }) =>
-      $type === 'neutral' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)'};
+      $type === 'neutral' ? colors.overlay.subtle : colors.focus.medium};
   }
 `

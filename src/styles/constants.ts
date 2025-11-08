@@ -9,11 +9,44 @@ export const colors = {
     text: '#e0e0e0',
     textLight: '#b0b0b0',
     textDark: '#808080',
+    icon: '#666666',
   },
   background: '#0a0a0a',
   surface: '#121212',
   surfaceLight: '#1e1e1e',
   error: '#d32f2f',
+  errorDark: '#b71c1c',
+  success: '#4caf50',
+  info: '#2196F3',
+  favorite: {
+    default: '#ff6b6b',
+    hover: '#ff5252',
+  },
+  star: '#FFD700',
+  highlight: {
+    background: '#ffffff',
+    text: '#000000',
+  },
+  overlay: {
+    light: 'rgba(0, 0, 0, 0.5)',
+    medium: 'rgba(0, 0, 0, 0.7)',
+    dark: 'rgba(0, 0, 0, 0.8)',
+    subtle: 'rgba(0, 0, 0, 0.1)',
+  },
+  shadow: {
+    light: 'rgba(0, 0, 0, 0.1)',
+    medium: 'rgba(0, 0, 0, 0.2)',
+    dark: 'rgba(0, 0, 0, 0.3)',
+    darker: 'rgba(0, 0, 0, 0.5)',
+  },
+  focus: {
+    light: 'rgba(255, 255, 255, 0.1)',
+    medium: 'rgba(255, 255, 255, 0.2)',
+  },
+  delete: {
+    default: 'rgba(211, 47, 47, 0.8)',
+    hover: 'rgba(211, 47, 47, 1)',
+  },
 }
 
 export const breakpoints = {

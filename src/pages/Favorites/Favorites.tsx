@@ -12,6 +12,7 @@ import Text from '../../components/Text/Text'
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal'
 import Film from '../../icons/Film'
 import { texts } from '../../constants/texts'
+import { colors } from '../../styles/constants'
 import {
   Container,
   MainContainer,
@@ -388,7 +389,7 @@ function Favorites() {
         <Container>
           <EmptyState>
             <EmptyImage>
-              <Film size={64} color="#6b6b6b" />
+              <Film size={64} color={colors.gray.icon} />
             </EmptyImage>
             <Text size="md" color="text" align="center">
               {selectedListId ? texts.empty.emptyList : texts.empty.noFavorites}
