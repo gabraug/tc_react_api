@@ -42,4 +42,3 @@ export const LongName: Story = {
     name: 'Science Fiction',
   },
 }
-

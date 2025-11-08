@@ -117,4 +117,3 @@ export const Centered: Story = {
     children: 'Centered text',
   },
 }
-

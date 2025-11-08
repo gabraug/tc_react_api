@@ -24,4 +24,3 @@ function Trash({ size = 20, color = 'currentColor' }: TrashProps) {
 }
 
 export default Trash
-

@@ -22,4 +22,3 @@ function Star({ filled = true, size = 16, color = 'currentColor' }: StarProps) {
 }
 
 export default Star
-
