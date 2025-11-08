@@ -1,4 +1,4 @@
-import { memo, ReactNode } from 'react'
+import { memo, type ReactNode } from 'react'
 import Button from '../Button/Button'
 import Text from '../Text/Text'
 import { EmptyContainer } from './EmptyState.styles'
