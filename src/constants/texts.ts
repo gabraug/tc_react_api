@@ -92,6 +92,7 @@ export const texts = {
     noSearchTerm: 'Digite um termo de busca para encontrar filmes',
     noPoster: 'Filme sem poster',
     noImage: 'Sem imagem disponível',
+    noImageShort: 'Sem imagem',
     noGenre: 'Sem gênero',
     noSynopsis: 'Sinopse não disponível.',
     noReleaseDate: 'Data não disponível',

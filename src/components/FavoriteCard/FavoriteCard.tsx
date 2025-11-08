@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import type { MovieDetails as MovieDetailsType } from '../../types/movie'
 import Text from '../Text/Text'
 import Trash from '../../icons/Trash'
+import { texts } from '../../constants/texts'
 import {
   Card,
   PosterContainer,

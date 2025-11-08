@@ -1,9 +1,11 @@
+import { texts } from '../constants/texts'
+
 export const formatDate = (
   dateString: string | null | undefined,
   locale: string = 'pt-BR'
 ): string => {
   if (!dateString) {
-    return 'Data não disponível'
+    return texts.empty.noReleaseDate
   }
 
   try {
@@ -14,7 +16,7 @@ export const formatDate = (
       day: 'numeric',
     })
   } catch {
-    return 'Data inválida'
+    return texts.errors.invalidDate
   }
 }
 
