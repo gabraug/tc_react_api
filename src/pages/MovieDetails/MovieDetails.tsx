@@ -232,7 +232,9 @@ function MovieDetails() {
         <Button variant="secondary" size="sm" onClick={handleBack}>
           <FavoriteButtonContent>
             <ArrowLeft size={18} color="currentColor" />
-            <span>Voltar</span>
+            <Text as="span" size="sm" color="white">
+              {texts.navigation.back}
+            </Text>
           </FavoriteButtonContent>
         </Button>
       </BackButtonWrapper>
