@@ -5,16 +5,20 @@ Aplicação React para consulta de filmes utilizando a API do The Movie Database
 ## Pré-requisitos
 
 **Docker Compose (Recomendado):**
+
 - Docker 20.x+
 - Docker Compose 2.x+
 
 **Instalação Local:**
+
 - Node.js 20.x+ (ou 22.x+)
 - npm 9.x+
+- NVM (Node Version Manager) - Recomendado para gerenciar versões do Node.js
 
 ### Instalando Node.js e npm
 
 **macOS (usando Homebrew):**
+
 ```bash
 brew install node
 ```
@@ -23,6 +27,7 @@ brew install node
 Baixe o instalador em [nodejs.org](https://nodejs.org/) e siga o assistente de instalação.
 
 **Verificando a instalação:**
+
 ```bash
 node --version
 npm --version
@@ -47,6 +52,10 @@ Aplicação disponível em `http://localhost:5173`
 ```bash
 git clone https://github.com/gabraug/tc_react_api.git
 cd tc_react_api
+
+# Se estiver usando NVM, use a versão do Node especificada no .nvmrc
+nvm use
+
 npm install
 cp .env.example .env
 # Edite o .env com suas credenciais
@@ -63,6 +72,7 @@ VITE_TMDB_TOKEN=seu_token_aqui
 ```
 
 **Obtendo o token TMDB:**
+
 1. Acesse [TMDB](https://www.themoviedb.org/)
 2. Crie uma conta ou faça login
 3. Vá em **Settings > API**
@@ -96,6 +106,20 @@ npm run format           # Formata o código
 npm run format:check     # Verifica formatação
 ```
 
+## Pre-commit Hooks
+
+O projeto utiliza **Husky** e **lint-staged** para garantir qualidade de código antes de cada commit:
+
+- **ESLint**: Executa automaticamente com `--fix` em arquivos `.ts` e `.tsx` staged
+- **Prettier**: Formata automaticamente arquivos staged (`.ts`, `.tsx`, `.json`, `.css`, `.scss`, `.md`)
+
+Os hooks são executados automaticamente ao fazer `git commit`. Se houver erros que não podem ser corrigidos automaticamente, o commit será bloqueado até que sejam resolvidos.
+
+**Configuração:**
+
+- Hook pre-commit: `.husky/pre-commit`
+- Configuração lint-staged: `package.json` → `lint-staged`
+
 ## Stack Tecnológica
 
 - React 19
@@ -108,6 +132,8 @@ npm run format:check     # Verifica formatação
 - Storybook
 - ESLint
 - Prettier
+- Husky
+- lint-staged
 
 ## Arquitetura
 
@@ -140,6 +166,42 @@ Testes próximos ao código. Utilize Testing Library para componentes e MSW para
 ### Storybook
 
 Cada componente deve ter uma story em `ComponentName.stories.tsx`.
+
+## Ferramentas de Desenvolvimento
+
+### EditorConfig
+
+O projeto utiliza `.editorconfig` para manter consistência de formatação entre diferentes editores e IDEs. As configurações incluem:
+
+- Encoding UTF-8
+- Fim de linha LF (Unix)
+- Indentação com espaços (2 espaços)
+- Remoção de espaços em branco no final das linhas
+- Inserção de nova linha no final dos arquivos
+
+A maioria dos editores modernos suporta EditorConfig nativamente ou através de plugins.
+
+### NVM (.nvmrc)
+
+O arquivo `.nvmrc` especifica a versão do Node.js recomendada para o projeto (Node.js 20). Para usar a versão correta:
+
+```bash
+# Se você usa NVM
+nvm use
+
+# Ou instale a versão especificada
+nvm install
+```
+
+Isso garante que todos os desenvolvedores usem a mesma versão do Node.js, evitando problemas de compatibilidade.
+
+## Deploy
+
+A aplicação está deployada na **Vercel** e disponível em:
+
+🌐 **https://tc-react-api.vercel.app**
+
+O deploy é feito automaticamente através de integração contínua (CI/CD) sempre que há push para a branch principal do repositório.
 
 ## Autor
 
