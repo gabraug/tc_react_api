@@ -50,8 +50,8 @@ describe('SearchCard Component', () => {
     })
   })
 
-  describe('Navigation', () => {
-    it('should navigate to movie details when card is clicked', async () => {
+  describe('User Interaction', () => {
+    it('should handle card click without errors', async () => {
       const user = userEvent.setup()
       const { container } = renderWithRouter(<SearchCard movie={mockMovie} searchTerm="" />)
 
@@ -61,7 +61,6 @@ describe('SearchCard Component', () => {
         await user.click(card)
       }
 
-      // Navigation is tested by checking if the component renders correctly
       expect(screen.getByText('Test Movie')).toBeInTheDocument()
     })
   })
