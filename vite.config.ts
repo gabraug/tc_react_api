@@ -56,7 +56,6 @@ export default defineConfig({
         ],
         test: {
           name: 'storybook',
-          include: ['**/*.stories.{ts,tsx}'],
           browser: {
             enabled: true,
             headless: true,
