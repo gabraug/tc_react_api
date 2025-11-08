@@ -41,7 +41,7 @@ function FavoriteCard({ movie, onDelete }: FavoriteCardProps) {
         ) : (
           <Placeholder>
             <Text size="xs" color="textDark" align="center">
-              Sem imagem
+              {texts.empty.noImageShort}
             </Text>
           </Placeholder>
         )}
