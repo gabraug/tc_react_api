@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getMoviesByIds } from '../../services/utils/movies'
 import type { MovieDetails as MovieDetailsType } from '../../types/movie'
 import { useFavorites } from '../../contexts/Favorites/FavoritesContext'
 import { useToast } from '../../contexts/Toast/ToastContext'
+import { useSorting } from '../../hooks/useSorting'
 import MovieCard from '../../components/MovieCard/MovieCard'
+import MovieCardSkeleton from '../../components/MovieCardSkeleton/MovieCardSkeleton'
 import SortPanel from '../../components/SortPanel/SortPanel'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
@@ -81,22 +83,10 @@ function Favorites() {
     loadMovies()
   }, [favorites, lists, selectedListId, showToast])
 
-  const sortedMovies = useMemo(() => {
-    const sorted = [...movies]
-
-    switch (sortBy) {
-      case 'title-asc':
-        return sorted.sort((a, b) => a.title.localeCompare(b.title))
-      case 'title-desc':
-        return sorted.sort((a, b) => b.title.localeCompare(a.title))
-      case 'rating-asc':
-        return sorted.sort((a, b) => a.vote_average - b.vote_average)
-      case 'rating-desc':
-        return sorted.sort((a, b) => b.vote_average - a.vote_average)
-      default:
-        return sorted
-    }
-  }, [movies, sortBy])
+  const sortedMovies = useSorting({
+    items: movies,
+    sortBy,
+  })
 
   const handleDelete = (movieId: number) => {
     removeFavorite(movieId, selectedListId || undefined)
@@ -174,9 +164,65 @@ function Favorites() {
   if (loading) {
     return (
       <Container>
-        <Text size="md" color="text">
-          {texts.loading.default}
-        </Text>
+        <ListsContainer>
+          <ListSection $selected={selectedListId === null} onClick={() => setSelectedListId(null)}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Text as="div" size="sm" color="white" weight="semibold">
+                {texts.lists.favorites} ({favorites.length})
+              </Text>
+            </div>
+          </ListSection>
+          {lists.map(list => (
+            <ListSection
+              key={list.id}
+              $selected={selectedListId === list.id}
+              onClick={() => setSelectedListId(list.id)}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                }}
+              >
+                <Text as="div" size="sm" color="white" weight="semibold">
+                  {list.name} ({list.movieIds.length})
+                </Text>
+              </div>
+            </ListSection>
+          ))}
+        </ListsContainer>
+        <MainContainer>
+          <SortPanel
+            title={texts.labels.sortBy}
+            options={[
+              { value: 'title-asc', label: texts.sortOptions.titleAsc },
+              { value: 'title-desc', label: texts.sortOptions.titleDesc },
+              { value: 'rating-desc', label: texts.sortOptions.ratingDesc },
+              { value: 'rating-asc', label: texts.sortOptions.ratingAsc },
+            ]}
+            activeValue={sortBy}
+            onSelect={() => {}}
+          />
+          <ContentWrapper>
+            <Header>
+              <Text as="h2" size="md" color="white" weight="bold">
+                {currentList?.name || texts.lists.favorites}
+              </Text>
+            </Header>
+            <Grid>
+              <MovieCardSkeleton count={12} />
+            </Grid>
+          </ContentWrapper>
+        </MainContainer>
       </Container>
     )
   }
@@ -439,9 +485,7 @@ function Favorites() {
       <ConfirmModal
         isOpen={deleteModalOpen}
         title={texts.modals.deleteList}
-        message={
-          listToDelete ? texts.modals.deleteListConfirm(listToDelete.name) : ''
-        }
+        message={listToDelete ? texts.modals.deleteListConfirm(listToDelete.name) : ''}
         confirmText={texts.buttons.delete}
         cancelText={texts.buttons.cancel}
         variant="danger"

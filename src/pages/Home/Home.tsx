@@ -1,44 +1,31 @@
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { getPopularMovies } from '../../services/endpoints/movies'
 import type { Movie } from '../../types/movie'
 import { useFavorites } from '../../contexts/Favorites/FavoritesContext'
 import { useToast } from '../../contexts/Toast/ToastContext'
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
+import { useSorting } from '../../hooks/useSorting'
+import type { SortOptionType } from '../../types/common'
 import MovieCard from '../../components/MovieCard/MovieCard'
+import MovieCardSkeleton from '../../components/MovieCardSkeleton/MovieCardSkeleton'
 import SortPanel from '../../components/SortPanel/SortPanel'
 import Text from '../../components/Text/Text'
 import { texts } from '../../constants/texts'
-import {
-  Container,
-  ContentWrapper,
-  Grid,
-  LoadingContainer,
-  LoadingSpinner,
-  ErrorContainer,
-  ErrorButton,
-} from './Home.styles'
-
-type SortOptionType = 'title-asc' | 'title-desc' | 'rating-desc' | 'rating-asc' | 'favorites-first'
+import { Container, ContentWrapper, Grid, ErrorContainer, ErrorButton } from './Home.styles'
 
 function Home() {
   const { isFavoriteInAnyList } = useFavorites()
   const { showToast } = useToast()
   const [movies, setMovies] = useState<Movie[]>([])
-  const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [hasMore, setHasMore] = useState(true)
   const [sortBy, setSortBy] = useState<SortOptionType>('title-asc')
-  const loadedPagesRef = useRef<Set<number>>(new Set())
-  const loadingRef = useRef(false)
+  const setLoadingRef = useRef<((loading: boolean) => void) | null>(null)
 
   const loadMovies = useCallback(
     async (pageNum: number, isInitialLoad: boolean = false) => {
-      if (loadedPagesRef.current.has(pageNum) || loadingRef.current) {
-        return
-      }
-
-      loadingRef.current = true
       if (isInitialLoad) {
         setIsLoading(true)
       } else {
@@ -57,7 +44,7 @@ function Home() {
           return [...prev, ...newMovies]
         })
         setHasMore(pageNum < data.total_pages)
-        loadedPagesRef.current.add(pageNum)
+        setLoadingRef.current?.(false)
       } catch (_err) {
         const errorMessage = texts.errors.loadMovies
         setError(errorMessage)
@@ -66,79 +53,58 @@ function Home() {
         } else {
           showToast(texts.errors.loadMoreMovies, 'error')
         }
+        setLoadingRef.current?.(false)
       } finally {
         if (isInitialLoad) {
           setIsLoading(false)
         } else {
           setIsLoadingMore(false)
         }
-        loadingRef.current = false
       }
     },
     [showToast]
   )
 
+  const infiniteScroll = useInfiniteScroll({
+    hasMore,
+    isLoading: isLoading || isLoadingMore,
+    onLoadMore: page => loadMovies(page, false),
+  })
+
+  useEffect(() => {
+    setLoadingRef.current = infiniteScroll.setLoading
+  }, [infiniteScroll.setLoading])
+
   useEffect(() => {
     loadMovies(1, true)
-  }, [loadMovies])
+    infiniteScroll.reset()
+  }, [])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >= document.documentElement.offsetHeight - 1000 &&
-        !loadingRef.current &&
-        hasMore &&
-        !loadedPagesRef.current.has(page + 1)
-      ) {
-        setPage(prev => prev + 1)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [hasMore, page])
-
-  useEffect(() => {
-    if (page > 1 && !loadedPagesRef.current.has(page)) {
-      loadMovies(page, false)
-    }
-  }, [page, loadMovies])
-
-  const sortedMovies = useMemo(() => {
-    const sorted = [...movies]
-
-    switch (sortBy) {
-      case 'title-asc':
-        return sorted.sort((a, b) => a.title.localeCompare(b.title))
-      case 'title-desc':
-        return sorted.sort((a, b) => b.title.localeCompare(a.title))
-      case 'rating-desc':
-        return sorted.sort((a, b) => b.vote_average - a.vote_average)
-      case 'rating-asc':
-        return sorted.sort((a, b) => a.vote_average - b.vote_average)
-      case 'favorites-first':
-        return sorted.sort((a, b) => {
-          const aIsFavorite = isFavoriteInAnyList(a.id)
-          const bIsFavorite = isFavoriteInAnyList(b.id)
-          if (aIsFavorite && !bIsFavorite) return -1
-          if (!aIsFavorite && bIsFavorite) return 1
-          return 0
-        })
-      default:
-        return sorted
-    }
-  }, [movies, sortBy, isFavoriteInAnyList])
+  const sortedMovies = useSorting({
+    items: movies,
+    sortBy,
+    isFavorite: isFavoriteInAnyList,
+  })
 
   if (isLoading) {
     return (
       <Container>
+        <SortPanel
+          title={texts.labels.sortBy}
+          options={[
+            { value: 'title-asc', label: texts.sortOptions.titleAsc },
+            { value: 'title-desc', label: texts.sortOptions.titleDesc },
+            { value: 'rating-desc', label: texts.sortOptions.ratingDesc },
+            { value: 'rating-asc', label: texts.sortOptions.ratingAsc },
+            { value: 'favorites-first', label: texts.sortOptions.favoritesFirst },
+          ]}
+          activeValue={sortBy}
+          onSelect={() => {}}
+        />
         <ContentWrapper>
-          <LoadingContainer>
-            <LoadingSpinner />
-            <Text size="md" color="text">
-              {texts.loading.movies}
-            </Text>
-          </LoadingContainer>
+          <Grid>
+            <MovieCardSkeleton count={12} />
+          </Grid>
         </ContentWrapper>
       </Container>
     )
@@ -180,15 +146,8 @@ function Home() {
           {sortedMovies.map(movie => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
+          {isLoadingMore && <MovieCardSkeleton count={6} />}
         </Grid>
-        {isLoadingMore && (
-          <LoadingContainer>
-            <LoadingSpinner />
-            <Text size="md" color="text">
-              {texts.loading.moreMovies}
-            </Text>
-          </LoadingContainer>
-        )}
         {error && movies.length > 0 && (
           <Text size="sm" color="error">
             {error}
