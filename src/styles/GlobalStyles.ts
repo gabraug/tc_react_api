@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { colors, typography } from './constants'
 
 export const GlobalStyles = createGlobalStyle`
   * {
@@ -8,8 +9,14 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: Arial;
+    font-family: ${typography.fontFamily};
     line-height: 1.5;
+    background-color: ${colors.background};
+    color: ${colors.gray.text};
+  }
+
+  #root {
+    min-height: 100vh;
+    background-color: ${colors.background};
   }
 `
-
