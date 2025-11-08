@@ -1,34 +1,26 @@
-import { useEffect } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import AppRoutes from './routes'
-import Navigation from './components/Navigation'
-import api from './services/api'
+import Header from './components/Header/Header'
+import { FavoritesProvider } from './contexts/Favorites/FavoritesContext'
+import { ToastProvider } from './contexts/Toast/ToastContext'
+import Toast from './components/Toast/Toast'
 import { GlobalStyles } from './styles/GlobalStyles'
 
 function App() {
-  useEffect(() => {
-    const callApi = async () => {
-      try {
-        const response = await api.get('/authentication')
-        console.log('API Response:', response.data)
-      } catch (error) {
-        console.error('API Error:', error)
-      }
-    }
-
-    callApi()
-  }, [])
-
   return (
     <>
       <GlobalStyles />
       <BrowserRouter>
-        <Navigation />
-        <AppRoutes />
+        <ToastProvider>
+          <FavoritesProvider>
+            <Header />
+            <AppRoutes />
+            <Toast />
+          </FavoritesProvider>
+        </ToastProvider>
       </BrowserRouter>
     </>
   )
 }
 
 export default App
-
